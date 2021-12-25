@@ -1,0 +1,168 @@
+{
+  "close": "Sulje",
+  "save": "Tallenna",
+  "delete": "Poista",
+  "title": "Ostoskori",
+  "cancel": "Peruuta",
+  "yes": "Kyllä",
+  "navbar": {
+    "carts": "Korit",
+    "products": "Tuotteet",
+    "profile": "Profiili",
+    "Info": "Info"
+  },
+  "profile": {
+    "username": "Käyttäjätunnus",
+    "password": "Salasana",
+    "title": "Profiili",
+    "friends": "Kaverit",
+    "groups": {
+      "friends": {
+        "title": "Kaverit",
+        "empty": "Ei yhtään kaveria"
+      },
+      "requestSent": {
+        "title": "Kutsuttu",
+        "empty": "Ei kaveripyyntöjä"
+      },
+      "requestReceived": {
+        "title": "Kutsui",
+        "empty": "Ei kaverikutsuja"
+      }
+    },
+    "newUserSuggestion": "Uusi käyttäjä?",
+    "register": "Rekisteröidy",
+    "login": "Kirjaudu sisään",
+    "logout": "Kirjaudu ulos",
+    "sendFriendRequest": "Lähetä uusi kaveripyyntö"
+  },
+  "cartList": {
+    "title": {
+      "false": "Ostoskorit",
+      "true": "Siirrä ostoskoreja"
+    }
+  },
+  "cart": {
+    "information": "Tiedot",
+    "createdAt": "Luotu",
+    "status": "Tila",
+    "friends": "Ostoskaverit",
+    "amountOfProducts": "Tuotteita",
+    "actions": {
+      "changeToActive": "Muuta aktiiviseksi",
+      "changeToReady": "Siirrä valmiiksi",
+      "inviteFriend": "Kutsu kaveri",
+      "statusChanged": "Ostoskorin {{name}} tila muutettu"
+    },
+    "options": {
+      "modify": "Muokkaa"
+    }
+  },
+  "products": {
+    "notFound": "Tuotteita ei löytynyt"
+  },
+  "product": {
+    "unit": "kpl",
+    "title": "Tuote",
+    "amount": "Määrä",
+    "isReady": "Valmis"
+  },
+  "addCart": {
+    "title": "Luo ostoskori",
+    "name": "Nimi",
+    "close": "Sulje",
+    "save": "Tallenna",
+    "automaticCartName": "Ostoskori ({{date}})",
+    "success": "Uusi ostoskori '{{name}}' luotu"
+  },
+  "modifyCart": {
+    "title": "Muokkaa ostoskoria",
+    "name": "Nimi",
+    "amount": "Määrä",
+    "addProducts": "Lisää tuotteet",
+    "deletedSuccess": "Ostoskori '{{name}}' poistettu"
+  },
+  "addProducts": {
+    "title": "Lisää tuotteita",
+    "name": "Nimi",
+    "productName": "Tuotteen nimi",
+    "amount": "Määrä",
+    "close": "Sulje",
+    "addProducts": "Lisää tuotteet",
+    "noProductsAddedNotification": "Yhtäkään tuotetta ei lisätty"
+  },
+  "modifyProduct": {
+    "title": "Muokkaa tuotetta",
+    "name": "Nimi",
+    "namePlaceholder": "Tuotteen nimi",
+    "amount": "Määrä",
+    "amountPlaceholder": "1-99",
+    "close": "Sulje",
+    "delete": "Poista",
+    "save": "Tallenna"
+  },
+  "register": {
+    "title": "Rekisteröidy"
+  },
+  "friends": {
+    "searchUserPlaceholder": "Syötä käyttäjänimi",
+    "user": "Käyttäjä",
+    "close": "Sulje"
+  },
+  "sendFriendRequest": {
+    "title": "Lähetä kaveripyyntö",
+    "searchUsers": "Etsi käyttäjiä",
+    "userTableRowTitle": "Löydetyt käyttäjät",
+    "foundUserAmountText": "Löydettiin {{userAmount}} käyttäjää",
+    "helpSearchMessage": "Syötä käyttäjän nimi hakupalkkiin",
+    "usersNotFound": "Käyttäjiä ei löytynyt",
+    "sendFriendRequest": "Lähetä kaveripyyntö",
+    "requestSentNotification": "Kaveripyyntö lähetetty henkilölle '{{username}}'"
+  },
+  "addFriend": {
+    "title": "Lisää kaveri",
+    "searchUsers": "Etsi kavereita",
+    "userTableRowTitle": "Löydetyt kaverit",
+    "foundUserAmountText": "Löydettiin {{userAmount}} kaveria",
+    "helpSearchMessage": "Syötä kaverin nimi hakupalkkiin",
+    "usersNotFound": "Kavereita ei löytynyt",
+    "sendFriendRequest": "Lisää kaveri",
+    "requestSentNotification": "Kaveri '{{username}}' lisätty koriin"
+  },
+  "removeFriend": {
+    "title": "Poista kaveri",
+    "content": "Haluatko varmasti poistaa kaverin {{username}}?",
+    "success": "Kaveri '{{username}}' poistettiin"
+  },
+  "removeFriendshipRequest": {
+    "title": "Poista kaveripyyntö",
+    "content": "Haluatko varmasti poistaa kaveripyynnön henkilölle {{username}}?",
+    "success": "Kaveripyyntö henkilölle {{username}} poistettiin"
+  },
+  "acceptFriendshipRequest": {
+    "success": "Kaveripyyntö henkilöltä {{username}} hyväksyttiin",
+    "reject": "Kaveripyyntö henkilöltä {{username}} poistettiin"
+  },
+  "rejectFriendshipRequest": {
+    "title": "Hylkää kaveripyyntö",
+    "content": "Haluatko varmasti hylätä kaveripyynnön henkilöltä {{username}}?",
+    "success": "Kaveripyyntö henkilöltä {{username}} hylättiin"
+  },
+  "friendList": {
+    "noUsersFound": "Tyhjä"
+  },
+  "error": {
+    "usernameAlreadyTaken": "Käyttänimi on jo otettu",
+    "promptLogin": "Kirjaudu sisään käyttääksesi palvelua"
+  },
+  "cartStatus": {
+    "created": "Luotu",
+    "done": "Valmis",
+    "inProgress": "Toiminnassa"
+  },
+  "friendshipStatus": {
+    "requestSent": "Pyydetty",
+    "requestReceived": "Odottaa",
+    "confirmed": "Hyväksytty"
+  }
+}

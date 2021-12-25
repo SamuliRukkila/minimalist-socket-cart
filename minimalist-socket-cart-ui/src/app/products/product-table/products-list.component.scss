@@ -1,0 +1,46 @@
+@import 'src/colour-schemes.scss';
+
+table {
+  width: 100%;
+  margin-top: .7em;
+}
+
+.mat-column-name {
+  flex: 0 0 57%;
+}
+
+.mat-column-amount {
+  flex: 0 0 19%;
+}
+
+.mat-header-amount {
+  text-align: left;
+}
+
+.mat-header-isCollected {
+  flex: 0 0 5%;
+}
+
+.isCollected {
+  text-decoration: line-through;
+
+  mat-row {
+    text-decoration: none !important;
+  }
+}
+
+.isCollected-icon-true {
+  color: $theme-2;
+}
+
+.isCollected-icon {
+  margin-left: .4em;
+}
+
+.no-data-cell {
+  padding-top: 1.2em;
+}
+
+.mat-header-row {
+  .mat-header-cell {}
+}

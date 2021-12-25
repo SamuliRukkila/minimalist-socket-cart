@@ -1,0 +1,37 @@
+@import 'src/colour-schemes.scss';
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.mat-toolbar {
+  height: 35px !important;
+  color: white !important;
+}
+
+.cart-list-toolbar {
+  background-color: $theme-1;
+  color: $theme-6;
+}
+
+.cart-list-toolbar-fixed {
+  position: fixed;
+  top: 0;
+  height: 0;
+  opacity: 0;
+  transition: opacity .25s ease-out, height .15s ease;
+  cursor: default;
+  user-select: none;
+  z-index: 999;
+}
+
+.sticky {
+  height: 64px;
+  opacity: 1;
+  transition: opacity .25s ease-out, height .15s ease;
+}
+
+.header {
+  height: 200px;
+  width: 100%;
+}

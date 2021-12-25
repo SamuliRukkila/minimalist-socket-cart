@@ -1,0 +1,32 @@
+<app-dynamic-toolbar
+  name="profile.title"
+  [buttons]="[]">
+</app-dynamic-toolbar>
+
+<div class="profile-container">
+
+  <div *ngIf="isLoggedIn else registerLoginForms">
+    <app-friendship-panel
+      [friendships]="friendships"
+      [requestSentFriendships]="requestSentFriendships"
+      [requestReceivedFriendships]="requestReceivedFriendships"
+      [isLoggedIn]="isLoggedIn">
+    </app-friendship-panel>
+  </div>
+
+  <ng-template #registerLoginForms>
+    <credentials-form [register]="false" title="profile.login"></credentials-form>
+    <hr>
+    <p class="register-box">{{ "profile.newUserSuggestion" | translate }}
+      <button class="mat-raised-button main-button" (click)="openRegisterDialog()">
+        {{ "profile.register" | translate }}
+      </button>
+    </p>
+  </ng-template>
+
+  <div *ngIf="isLoggedIn" class="button-container">
+    <button mat-button class="mat-raised-button logout-button" (click)="logout()">
+      {{ "profile.logout" | translate }}
+    </button>
+  </div>
+</div>

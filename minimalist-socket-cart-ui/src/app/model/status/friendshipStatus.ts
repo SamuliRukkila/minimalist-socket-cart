@@ -1,0 +1,5 @@
+export enum FriendshipStatus {
+  REQUEST_SENT = "REQUEST_SENT",
+  REQUEST_RECEIVED = "REQUEST_RECEIVED",
+  CONFIRMED = "CONFIRMED"
+}

@@ -1,0 +1,10 @@
+$cart-theme-primary: mat-palette($mat-indigo, 700, 300, 900);
+$cart-theme-accent: mat-palette($mat-light-blue);
+$cart-theme-warn: mat-palette($mat-deep-orange, A200);
+
+// create theme (use mat-dark-theme for themes with dark backgrounds)
+$cart-theme: mat-light-theme(
+    $cart-theme-primary,
+    $cart-theme-accent,
+    $cart-theme-warn
+);

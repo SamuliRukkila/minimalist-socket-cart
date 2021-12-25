@@ -1,0 +1,40 @@
+<div>
+  <mat-table [dataSource]="products" class="mat-elevation-z19">
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef class="mat-header-name">{{ "product.unit" | translate}}</mat-header-cell>
+      <mat-cell *matCellDef="let product"[ngClass]="{'isCollected': product['collected'] }"> {{ product.name }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="amount">
+      <mat-header-cell *matHeaderCellDef class="mat-header-amount">{{ "product.amount" | translate}}</mat-header-cell>
+      <mat-cell *matCellDef="let product" [ngClass]="{'isCollected': product['collected'] }"> {{ product.amount }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="isCollected">
+      <mat-header-cell *matHeaderCellDef class="mat-header-is-collected">{{ "product.isReady" | translate}}</mat-header-cell>
+      <mat-cell class="isCollected-icon" *matCellDef="let product">
+        <mat-icon [ngClass]="{'isCollected-icon-true': product['collected'] }">{{ product['collected'] | ProductIsCollectedIcon }}</mat-icon>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="visibleProductColumns"></mat-header-row>
+    <mat-row matRipple
+      ngxLongPress2
+      (click)="toggleIsProductCollected(row)"
+      (onLongPress)="modifyOrDeleteProduct(row)"
+      *matRowDef="let row columns: visibleProductColumns">
+    </mat-row>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell no-data-cell" colspan="4">{{ "products.notFound" | translate }}</td>
+    </tr>
+  </mat-table>
+</div>
+
+<app-sticky-button
+  logo="add"
+  (onButtonClickEvent)="openAddProductDialog()">
+</app-sticky-button>
+
+

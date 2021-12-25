@@ -1,0 +1,49 @@
+<div *ngIf="cart">
+  <app-dynamic-toolbar
+    [name]="cart.name"
+    [buttons]="buttons"
+    (onButtonClickEvent)="handleClick($event)">
+  </app-dynamic-toolbar>
+
+  <div class="container">
+    <div class="cart-buttons">
+      <button *ngIf="cart.status === statusCreated"
+              mat-raised-button class="main-button"
+              (click)="updateCartStatus(statusInProgress)">{{ "cart.actions.changeToActive" | translate }}
+      </button>
+      <button *ngIf="cart.status === statusInProgress"
+              mat-raised-button class="main-button"
+              (click)="updateCartStatus(statusDone)">{{ "cart.actions.changeToReady" | translate }}
+      </button>
+      <button *ngIf="cart.status !== statusDone"
+              mat-raised-button class="main-button"
+              (click)="inviteFriend()">{{ "cart.actions.inviteFriend" | translate }}
+      </button>
+    </div>
+
+    <mat-expansion-panel class="cart-additional-information-container">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <p>
+            {{ "cart.status" | translate }}:
+            <span [className]="cart.status | CartStatus">
+              {{ cart.status | StatusLocalize }}
+            </span>
+          </p>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-cart-meta-information
+        [cart]="cart"
+        [amountOfProducts]="amountOfProducts"
+        [showTitle]="false"
+        [showStatus]="false"
+        [showCartOptions]="false">
+      </app-cart-meta-information>
+    </mat-expansion-panel>
+
+    <app-products-list
+      [cartId]="cart.id"
+      (productAmountEvent)="updateProductAmountCounter($event)">
+    </app-products-list>
+  </div>
+</div>

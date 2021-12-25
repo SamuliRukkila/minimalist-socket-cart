@@ -1,0 +1,49 @@
+<app-dynamic-toolbar
+  name='{{ "cartList.title." + inEditMode | translate }}'
+  [buttons]="buttons"
+  (onButtonClickEvent)="handleClick($event)">
+</app-dynamic-toolbar>
+
+<div *ngIf="!inEditMode else editCartListView">
+  <div class="cart-list-container">
+    <div class="cart-list">
+      <div *ngFor="let cart of carts let i = index">
+        <div class="cart-block mat-elevation-z9"
+             ngxLongPress2 (onLongPress)="modifyCart(cart)" matRipple>
+          <app-cart-meta-information
+            [cart]="cart"
+            [showAmountOfProducts]="false"
+            [showFriends]="false"
+            (onOptionClick)="modifyCart(cart)">
+          </app-cart-meta-information>
+        </div>
+        <div *ngIf="i < amountOfInProgressCarts">
+          <hr>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #editCartListView>
+<!--  <div class="cart-list-container">-->
+<!--    <div-->
+<!--      cdkDropList-->
+<!--      class="cart-list"-->
+<!--      [cdkDropListData]="carts"-->
+<!--      (cdkDropListDropped)="drop($event)">-->
+<!--      <div style="margin-right: 3em" class="cart-block" *ngFor="let cart of carts" cdkDrag routerLink="/carts/{{cart.id}}">-->
+<!--        <p style="font-size: 16px">{{cart.name}}</p>-->
+<!--        <p>Luotu: <span>{{ cart.createdAt | date : 'dd.MM.yyyy HH:mm'}}</span></p>-->
+<!--        <p>Tila: <span [className]="cart.status | CartStatus">{{ cart.status }}</span></p>-->
+<!--        <p>Jaettu: {{ ['Katariina', 'Kotola'] | UserInitialsPipe }}</p>-->
+<!--        <hr>-->
+<!--        <p>Tuotteita: 2</p>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+</ng-template>
+
+<app-sticky-button
+  logo="add"
+  (onButtonClickEvent)="createCart()">
+</app-sticky-button>

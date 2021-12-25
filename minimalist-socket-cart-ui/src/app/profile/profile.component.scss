@@ -1,0 +1,29 @@
+@import 'src/colour-schemes.scss';
+
+.profile-container {
+  width: 90%;
+  margin: 20px auto auto;
+}
+
+.register-box {
+  text-align: center;
+  button {
+    margin-left: 10px;
+  }
+}
+
+.button-container {
+  margin-top: 20px;
+}
+
+.logout-button {
+  background-color: #d34b55;
+  color: white;
+}
+
+.friendship-action-button {
+  padding: .1em .8em;
+  color: white;
+  background-color: $theme-1;
+  line-height: 26px;
+}

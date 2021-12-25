@@ -1,0 +1,110 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
+@include mat-core();
+@import 'cart-styles.scss';
+
+.cart-theme {
+  @include angular-material-theme($cart-theme)
+}
+@import '~material-bottom-nav';
+@import 'colour-schemes.scss';
+
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #eaebec; }
+
+
+.bottom-nav {
+  @include bottom-nav(
+    $background-color: $theme-1,
+    $active-color: $theme-6,
+    $inactive-color: $theme-6,
+    $hide-inactive-labels: true
+  );
+  border-top: none;
+}
+
+.main-button {
+  background-color: $theme-1 !important;
+  color: $theme-3 !important;
+
+  &:disabled {
+    background-color: gray !important;
+  }
+}
+
+.created, .done, .in_progress {
+  padding: .3em;
+  color: white;
+  border-radius: 2px;
+  margin-left: .3em
+}
+
+.created {
+  background-color: dimgray;
+}
+
+.done {
+  background-color: darkgreen;
+}
+
+.in_progress {
+  background-color: #01579b;
+}
+
+.request_sent, .confirmed  {
+  color: white;
+  border-radius: 2px;
+  padding: .4em;
+}
+
+.request_sent { background-color: #01579b; }
+.confirmed { background-color: darkgreen; }
+
+.mat-card {
+  margin: 1em auto;
+}
+
+snack-bar-container.message-info {
+  background-color: $theme-1 !important;
+  color: $theme-3 !important;
+  margin-bottom: 18% !important;
+  width: 80% !important;
+}
+
+snack-bar-container.message-warn {
+  background-color: #86863a !important;
+  color: $theme-3 !important;
+  margin-bottom: 18% !important;
+  width: 80% !important;
+}
+
+snack-bar-container.message-error {
+  background-color: #ff2b1d !important;
+  color: $theme-3 !important;
+  margin-bottom: 18% !important;
+  width: 80% !important;
+}
+
+.friends-dialog {
+  width: 90%;
+  max-width: 90% !important;
+  overflow-x: hidden;
+  height: 80%;
+
+  .mat-dialog-container {
+    padding: .8em;
+    height: 100%;
+    max-height: 100%;
+  }
+
+  .mat-dialog-content {
+    max-height: 100% !important;
+    height: 100% !important;
+  }
+}
+
+.friends-expansion-panel {
+
+  .mat-expansion-panel-body {
+    padding: 0 5px 16px;
+  }
+}
