@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.rukkila.minimalistsocketcart.model.entity.cart.CartUsers;
+import com.rukkila.minimalistsocketcart.model.entity.cart.CartUser;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,7 +42,7 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
-    private Set<CartUsers> carts;
+    private Set<CartUser> carts;
 
     public Integer getId() {
         return id;
@@ -62,6 +62,7 @@ public class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -70,11 +71,11 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public Set<CartUsers> getCarts() {
+    public Set<CartUser> getCarts() {
         return carts;
     }
 
-    public void setCarts(Set<CartUsers> cartUsers) {
+    public void setCarts(Set<CartUser> cartUsers) {
         if (cartUsers == null) cartUsers = new HashSet<>();
         this.carts = cartUsers;
     }
@@ -110,10 +111,7 @@ public class User implements UserDetails {
 
     @Override
     public String toString() {
-        return "User {" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                '}';
+        return String.format("User (id: '%s', username: '%s')", id, username);
     }
 
     @Override

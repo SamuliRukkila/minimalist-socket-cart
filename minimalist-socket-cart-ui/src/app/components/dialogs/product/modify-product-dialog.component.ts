@@ -58,6 +58,7 @@ export class ModifyProductDialogComponent implements OnInit {
 
   name: string = ""
   amount: number = 1
+  cartId: number
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private dialogRef: MatDialogRef<ModifyProductDialogComponent>,
@@ -66,6 +67,7 @@ export class ModifyProductDialogComponent implements OnInit {
   ngOnInit(): void {
     this.name = this.data.product.name
     this.amount = this.data.product.amount
+    this.cartId = this.data.cartId
   }
 
   @HostListener('document:keydown.enter')
@@ -81,14 +83,14 @@ export class ModifyProductDialogComponent implements OnInit {
     if (this.name) {
       this.data.product.name = this.name
       this.data.product.amount = this.amount
-      this.productService.updateProduct(this.data.product)
+      this.productService.updateProduct(this.data.product, this.cartId)
         .subscribe(updatedProduct =>
           this.close({ action: CartAction.UPDATE, product: updatedProduct}))
     }
   }
 
   deleteProduct(): void {
-    this.productService.deleteProduct(this.data.product.id)
+    this.productService.deleteProduct(this.data.product, this.cartId)
       .subscribe(() =>
         this.close({ action: CartAction.DELETE, product: this.data.product }))
   }

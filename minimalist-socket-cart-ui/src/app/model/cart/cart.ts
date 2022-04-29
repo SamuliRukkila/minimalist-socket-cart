@@ -1,11 +1,11 @@
-import {CartStatus} from "../status/cartStatus"
-import {CartUsers} from "./cart-users";
+import {CartStatus} from "../status/cart-status"
+import {CartUser} from "./cart-user";
 
 export interface Cart {
   id: number
   name: string
   status: CartStatus
   amountOfProducts: number
-  users: CartUsers[]
+  cartUsers: CartUser[]
   createdAt: Date
 }

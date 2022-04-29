@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -33,14 +34,15 @@ public class Cart {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private CartStatus status = CartStatus.CREATED;
+    private CartStatus status = CartStatus.WAITING;
 
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Product> products;
 
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     @JsonIgnore
-    private Set<CartUsers> users;
+    private Set<CartUser> users;
 
     @Column(name = "created_at", nullable = false)
     private Date createdAt;
@@ -54,7 +56,7 @@ public class Cart {
     }
 
     public static Cart ofCreated(String name) {
-        return new Cart(name, CartStatus.CREATED);
+        return new Cart(name, CartStatus.WAITING);
     }
 
     public Integer getId() {
@@ -82,7 +84,9 @@ public class Cart {
     }
 
     public List<Product> getProducts() {
-        if (products == null) products = new ArrayList<>();
+        if (products == null) {
+            products = new ArrayList<>();
+        }
         return products;
     }
 
@@ -90,12 +94,12 @@ public class Cart {
         this.products = products;
     }
 
-    public Set<CartUsers> getUsers() {
+    public Set<CartUser> getUsers() {
         if (users == null) users = new HashSet<>();
         return users;
     }
 
-    public void setUsers(Set<CartUsers> cartUsers) {
+    public void setUsers(Set<CartUser> cartUsers) {
         this.users = cartUsers;
     }
 

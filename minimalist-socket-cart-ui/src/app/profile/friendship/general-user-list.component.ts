@@ -1,13 +1,13 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core'
+import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core'
 import {Friendship} from "../../model/friendship"
 import {CookieService} from "ngx-cookie-service"
 import {CookieKeys} from "../../model/constants"
 
 @Component({
-  selector: 'app-friend-list',
+  selector: 'app-general-user-list',
   template: `
     <div *ngIf="friendships && friendships.length > 0 else displayNoFriendships">
-      <mat-list *ngFor="let friendship of friendships">
+      <mat-list *ngFor="let friendship of friendships; let i = index">
         <mat-list-item>
           <span class="username-container">
             <span *ngIf="friendship.user.id === userId else showCurrentUser">
@@ -26,8 +26,9 @@ import {CookieKeys} from "../../model/constants"
             </mat-icon>
           </span>
         </mat-list-item>
-        <mat-divider></mat-divider>
+        <mat-divider *ngIf="friendships.length - 1 > i"></mat-divider>
       </mat-list>
+
     </div>
     <ng-template #displayNoFriendships>
       <mat-list>
@@ -53,7 +54,7 @@ import {CookieKeys} from "../../model/constants"
     }
   `]
 })
-export class FriendListComponent implements OnChanges {
+export class GeneralUserListComponent implements OnChanges {
 
   userId: number
 

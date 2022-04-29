@@ -33,3 +33,7 @@
 .cart-list.cdk-drop-list-dragging .cart-list:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
+
+.carts-loading-spinner {
+  margin: 3em auto;
+}

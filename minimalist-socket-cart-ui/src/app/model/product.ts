@@ -4,4 +4,7 @@ export interface Product {
   amount: number
   collected?: boolean
   cartId?: number
+  index?: number
+
+  isBeingProcessed?: boolean
 }

@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core'
 
 @Pipe({
-  name: 'ProductIsCollectedIcon'
+  name: 'ProductCollectionIcon'
 })
-export class ProductIsCollectedIconPipe implements PipeTransform {
+export class ProductCollectionIconPipe implements PipeTransform {
   transform(isCollected: boolean): string {
     if (isCollected) {
       return "radio_button_checked"

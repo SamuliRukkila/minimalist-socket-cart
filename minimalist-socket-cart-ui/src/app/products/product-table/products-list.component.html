@@ -1,38 +1,85 @@
 <div>
-  <mat-table [dataSource]="products" class="mat-elevation-z19">
+  <mat-table [dataSource]="products"
+             class="mat-elevation-z19 product-list-table"
+             cdkDropList (cdkDropListDropped)="onProductMove($event)">
 
     <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef class="mat-header-name">{{ "product.unit" | translate}}</mat-header-cell>
-      <mat-cell *matCellDef="let product"[ngClass]="{'isCollected': product['collected'] }"> {{ product.name }} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="amount">
-      <mat-header-cell *matHeaderCellDef class="mat-header-amount">{{ "product.amount" | translate}}</mat-header-cell>
-      <mat-cell *matCellDef="let product" [ngClass]="{'isCollected': product['collected'] }"> {{ product.amount }} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="isCollected">
-      <mat-header-cell *matHeaderCellDef class="mat-header-is-collected">{{ "product.isReady" | translate}}</mat-header-cell>
-      <mat-cell class="isCollected-icon" *matCellDef="let product">
-        <mat-icon [ngClass]="{'isCollected-icon-true': product['collected'] }">{{ product['collected'] | ProductIsCollectedIcon }}</mat-icon>
+      <mat-header-cell *matHeaderCellDef class="mat-header-name">
+        {{ "product.title" | translate}}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let product" [ngClass]="{ 'isCollected': product['collected'] }">
+        <span *ngIf="product['isBeingProcessed']; else showName">
+          <mat-spinner diameter="25"></mat-spinner>
+        </span>
+        <ng-template #showName>
+          {{ product.name }}
+        </ng-template>
       </mat-cell>
     </ng-container>
 
-    <mat-header-row *matHeaderRowDef="visibleProductColumns"></mat-header-row>
-    <mat-row matRipple
+    <ng-container matColumnDef="amount">
+      <mat-header-cell *matHeaderCellDef class="mat-header-amount">
+        {{ "product.amount" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let product" [ngClass]="{ 'isCollected': product['collected'] }">
+        {{ product.amount }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="isCollected">
+      <mat-header-cell *matHeaderCellDef class="mat-header-is-collected">
+        {{ "product.isReady" | translate }}
+      </mat-header-cell>
+      <mat-cell class="isCollected-icon" *matCellDef="let product">
+        <mat-icon [ngClass]="{ 'isCollected-icon-true': product['collected'] }">
+          {{ product['collected'] | ProductCollectionIcon }}
+        </mat-icon>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dragHandle">
+      <mat-header-cell *matHeaderCellDef>
+        {{ "product.readyAmount" | translate :
+          { "readyProductAmount": collectedProductsAmount, "totalProductAmount": productsAmount } }}
+      </mat-header-cell>
+      <mat-cell>
+        <mat-icon cdkDragHandle *matCellDef
+                  (touchstart)="dragEnabled = true" (touchend)="dragEnabled = false"
+                  (mousedown)="dragEnabled = true" (mouseup)="dragEnabled = false">
+          <mat-icon>drag_handle</mat-icon>
+        </mat-icon>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="visibleProductColumns sticky: true" class="header-row"></mat-header-row>
+    <mat-row
+      matRipple
       ngxLongPress2
       (click)="toggleIsProductCollected(row)"
       (onLongPress)="modifyOrDeleteProduct(row)"
-      *matRowDef="let row columns: visibleProductColumns">
+      *matRowDef="let row columns: visibleProductColumns"
+
+      cdkDrag
+      [cdkDragData]="row"
+      [cdkDragDisabled]="!dragEnabled"
+      (cdkDragReleased)="dragEnabled = false">
     </mat-row>
 
     <tr class="mat-row" *matNoDataRow>
       <td class="mat-cell no-data-cell" colspan="4">{{ "products.notFound" | translate }}</td>
     </tr>
   </mat-table>
+
+  <mat-card *ngIf="areProductsLoading" class="product-list-loading-spinner">
+    <mat-progress-spinner
+      diameter="40"
+      color="primary"
+      mode="indeterminate">
+    </mat-progress-spinner>
+  </mat-card>
 </div>
 
-<app-sticky-button
+<app-sticky-button *ngIf="canAddProducts"
   logo="add"
   (onButtonClickEvent)="openAddProductDialog()">
 </app-sticky-button>

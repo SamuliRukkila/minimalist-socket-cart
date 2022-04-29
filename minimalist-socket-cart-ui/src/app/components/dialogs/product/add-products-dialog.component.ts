@@ -43,9 +43,8 @@ import {MessageService} from "../../../services/message.service"
               </button>
 
               <ng-template #addRowButton>
-                <button class="add-row-icon" (click)="addRow()" mat-icon-button
-                        [disabled]="!productForm.value['products'][pointIndex].productName ||
-                                    !productForm.value['products'][pointIndex].amount">
+                <button class="add-row-icon" (click)="onFieldEnterPress(pointIndex, 'amount')" mat-icon-button
+                        [disabled]="!productForm.value['products'][pointIndex]['name']">
                   <mat-icon>add_circle</mat-icon>
                 </button>
               </ng-template>
@@ -56,7 +55,7 @@ import {MessageService} from "../../../services/message.service"
     </mat-dialog-content>
 
     <mat-dialog-actions>
-      <button mat-button>{{ "addProducts.close" | translate }}</button>
+      <button mat-button matDialogClose="">{{ "addProducts.close" | translate }}</button>
       <button mat-button class="mat-raised-button main-button"
               (click)="saveProducts()">{{ "addProducts.addProducts" | translate }}
       </button>
@@ -106,16 +105,16 @@ export class AddProductsDialogComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.productForm = this.formBuilder.group({
       products: this.formBuilder.array([
-        this.formBuilder.group({ name: "", amount: "" })
+        this.formBuilder.group({ name: "", amount: null })
       ])
     })
   }
 
   ngAfterViewInit(): void {
-    this.messageService.displayHelpMessagesInOrder([
-        "Voit liikkua kentissä automaattisesti painamalla näppäimistön 'Enter'-painiketta",
-        "Jos jätät kohdan 'Määrä' tyhjäksi, annetaan määräksi automaattisesti 1"
-    ])
+    // this.messageService.displayHelpMessagesInOrder([
+    //     "Voit liikkua kentissä automaattisesti painamalla näppäimistön 'Enter'-painiketta",
+    //     "Jos jätät kohdan 'Määrä' tyhjäksi, annetaan määräksi automaattisesti 1"
+    // ])
   }
 
   get products(): FormArray {
@@ -125,7 +124,7 @@ export class AddProductsDialogComponent implements OnInit, AfterViewInit {
   addRow(): void {
     this.products.push(this.formBuilder.group({
       name: "",
-      amount: ""
+      amount: null
     }))
   }
 
@@ -137,8 +136,11 @@ export class AddProductsDialogComponent implements OnInit, AfterViewInit {
     const addedProducts: Product[] = this.productForm.value.products
     if (addedProducts.length > 0) {
       const finalProducts: Product[] = addedProducts
-        .map(product => this.validateProductAmount(product))
-        .filter(product => product.name !== undefined)
+        .map(product => {
+          product.amount = this.validateAmountValue(product.amount)
+          return product
+        })
+        .filter(product => product.name)
         .map(product => {
           return {
             name: product.name,
@@ -156,14 +158,14 @@ export class AddProductsDialogComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private validateProductAmount(product: Product): Product {
-    if (product.amount === undefined || product.amount === 0) {
-      product.amount = this.MIN_AMOUNT
+  private validateAmountValue(amount: number): number {
+    if (amount === null || amount < 1) {
+      return this.MIN_AMOUNT
     }
-    else if (product.amount > this.MAX_AMOUNT) {
-      product.amount = this.MAX_AMOUNT
+    else if (amount > this.MAX_AMOUNT) {
+      return this.MAX_AMOUNT
     }
-    return product
+    return amount
   }
 
   private close(products: Product[]): void {
@@ -192,10 +194,15 @@ export class AddProductsDialogComponent implements OnInit, AfterViewInit {
   }
 
   private handleNextInputFocusAmount(index: number): void {
-    const amountElementRef: ElementRef = this.inputAmounts.toArray()[index]
+    const inputAmounts: ElementRef[] = this.inputAmounts.toArray()
+
+    const amountElementRef: ElementRef = inputAmounts[index]
     if (!amountElementRef.nativeElement.value) {
       amountElementRef.nativeElement.value = 1
     }
+
+    amountElementRef.nativeElement.value =
+      this.validateAmountValue(amountElementRef.nativeElement.value)
 
     this.addRow()
 

@@ -5,22 +5,7 @@
     (onButtonClickEvent)="handleClick($event)">
   </app-dynamic-toolbar>
 
-  <div class="container">
-    <div class="cart-buttons">
-      <button *ngIf="cart.status === statusCreated"
-              mat-raised-button class="main-button"
-              (click)="updateCartStatus(statusInProgress)">{{ "cart.actions.changeToActive" | translate }}
-      </button>
-      <button *ngIf="cart.status === statusInProgress"
-              mat-raised-button class="main-button"
-              (click)="updateCartStatus(statusDone)">{{ "cart.actions.changeToReady" | translate }}
-      </button>
-      <button *ngIf="cart.status !== statusDone"
-              mat-raised-button class="main-button"
-              (click)="inviteFriend()">{{ "cart.actions.inviteFriend" | translate }}
-      </button>
-    </div>
-
+  <div class="cart-container">
     <mat-expansion-panel class="cart-additional-information-container">
       <mat-expansion-panel-header>
         <mat-panel-title>
@@ -37,13 +22,28 @@
         [amountOfProducts]="amountOfProducts"
         [showTitle]="false"
         [showStatus]="false"
+        [showOwnerInvitation]="false"
         [showCartOptions]="false">
       </app-cart-meta-information>
     </mat-expansion-panel>
 
+    <!--<div class="active-users-container">
+      <app-name-tags [users]="activeUsers"></app-name-tags>
+    </div>-->
+
     <app-products-list
       [cartId]="cart.id"
+      [canAddProducts]="cart.status !== statusDone"
+      [hideCollectedProductRows]="hideClearedProductRows"
+      [socketService]="cartSocketService"
       (productAmountEvent)="updateProductAmountCounter($event)">
     </app-products-list>
+  </div>
+
+  <div class="cart-buttons">
+    <button mat-raised-button class="main-button" (click)="openCartOptions()">
+      <mat-icon>arrow_drop_down</mat-icon>
+      {{ "cart.options.title" | translate }}
+    </button>
   </div>
 </div>

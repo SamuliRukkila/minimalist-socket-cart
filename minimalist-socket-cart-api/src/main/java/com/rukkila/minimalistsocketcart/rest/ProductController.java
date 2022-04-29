@@ -64,9 +64,21 @@ public class ProductController {
     }
 
     @GetMapping("/amount")
-    public ResponseEntity<Long> getAmountOfProducts(
+    public ResponseEntity<Integer> getAmountOfProducts(
             @RequestParam("cartId") Integer cartId) {
-        long amount = productService.getAmountOfProducts(cartId);
+        int amount = productService.getAmountOfProducts(cartId);
         return ResponseEntity.ok(amount);
+    }
+
+    @PutMapping("change-index")
+    public ResponseEntity<List<Product>> changeProductsIndex(
+            @RequestParam("productId") Integer productId,
+            @RequestParam("cartId") Integer cartId,
+            @RequestParam("previousIndex") Integer previousIndex,
+            @RequestParam("newIndex") Integer newIndex) {
+        List<Product> reIndexedProducts =
+                productService.changeProductIndex(
+                        productId, cartId, previousIndex, newIndex);
+        return ResponseEntity.ok(reIndexedProducts);
     }
 }

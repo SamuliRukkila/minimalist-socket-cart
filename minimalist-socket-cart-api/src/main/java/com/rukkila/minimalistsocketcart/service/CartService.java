@@ -2,17 +2,22 @@ package com.rukkila.minimalistsocketcart.service;
 
 import java.util.List;
 
+import com.rukkila.minimalistsocketcart.model.dto.CartDto;
+import com.rukkila.minimalistsocketcart.model.dto.CartUserDTO;
 import com.rukkila.minimalistsocketcart.model.entity.User;
 import com.rukkila.minimalistsocketcart.model.entity.cart.Cart;
-import com.rukkila.minimalistsocketcart.model.entity.cart.CartUsers;
+import com.rukkila.minimalistsocketcart.model.entity.cart.CartOwnership;
+import com.rukkila.minimalistsocketcart.model.entity.cart.CartUser;
 import com.rukkila.minimalistsocketcart.model.status.CartStatus;
 import com.rukkila.minimalistsocketcart.repository.CartRepository;
 import com.rukkila.minimalistsocketcart.repository.CartUsersRepository;
+import com.rukkila.minimalistsocketcart.util.JwtTokenUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,9 +36,9 @@ public class CartService {
     @Autowired
     private UserService userService;
 
-    public List<Cart> getCarts() {
+    public List<CartDto> getCarts() {
         User user = userService.getCurrentLoggedUser();
-        List<Cart> carts = cartRepository.findByUsers_User(
+        List<CartDto> carts = cartRepository.findAllByUsers_user(
                 user, SORT_BY_STATUS_CREATED);
 
         if (log.isDebugEnabled()) {
@@ -54,8 +59,8 @@ public class CartService {
         Cart newCart = Cart.ofCreated(name);
         Cart createdCart = cartRepository.save(newCart);
 
-        CartUsers cartUsers = CartUsers.ofCartOwner(createdCart, user);
-        cartUsersRepository.save(cartUsers);
+        CartUser cartUser = CartUser.ofCartOwner(createdCart, user);
+        cartUsersRepository.save(cartUser);
 
         log.debug("{} created a new {}", user, createdCart);
         return createdCart;
@@ -63,10 +68,13 @@ public class CartService {
 
     public Cart updateCart(int cartId, Cart updatedCart) {
         Cart cart = getCart(cartId);
+
+        checkPermissionsToCartAction(cart, false);
+
         String oldName = cart.getName();
         cart.setName(updatedCart.getName());
 
-        log.debug("{}'s name updated from '{}' to '{}'", cart,
+        log.debug("Cart's {} name updated from '{}' to '{}'", cart.getId(),
                 oldName, cart.getName());
         return cartRepository.save(cart);
     }
@@ -78,6 +86,9 @@ public class CartService {
                     String.format("Could not change status to %s "
                             + "since cart '%s' doesn't exists", status, cartId));
         }
+
+        checkPermissionsToCartAction(cart, false);
+
         CartStatus oldStatus = cart.getStatus();
         cart.setStatus(status);
 
@@ -86,17 +97,42 @@ public class CartService {
         return cartRepository.save(cart);
     }
 
+    public CartDto getCartDTO(int cartId) {
+        CartDto cart = cartRepository.getCartById(cartId);
+        checkPermissionsToCartAction(cart, false);
+        return cart;
+    }
+
     public Cart getCart(int cartId) {
-        return cartRepository.findById(cartId).orElse(null);
+        Cart cart = cartRepository.findById(cartId).orElse(null);
+        checkPermissionsToCartAction(cart, false);
+        return cart;
     }
 
     public void deleteCart(int cartId) {
+        Cart cart = getCart(cartId);
+        if (cart == null) {
+            throw new IllegalStateException(
+                    String.format("Could not delete cart '%s' since "
+                    + "it doesn't exist", cartId));
+        }
+
+        checkPermissionsToCartAction(cart, true);
+
         cartRepository.deleteById(cartId);
-        log.debug("Cart {} successfully deleted", cartId);
+        log.info("Cart {} was successfully deleted by userId: {}",
+                cartId, JwtTokenUtil.getUserIdFromSecurity());
     }
 
     public Cart addFriendToCart(Integer cartId, Integer friendId) {
         Cart cart = getCart(cartId);
+        if (cart == null) {
+            throw new IllegalStateException(
+                    String.format("Could not add friend '%s' to cart '%s' "
+                            + "since cart doesn't exist", friendId, cartId));
+        }
+        checkPermissionsToCartAction(cart, true);
+
         User friend = userService.getUser(friendId);
 
         boolean friendAlreadyInCart =
@@ -107,10 +143,52 @@ public class CartService {
                             + "already in cart", friend, cart));
         }
 
-        CartUsers participantUser = CartUsers.ofCartParticipant(cart, friend);
+        CartUser participantUser = CartUser.ofCartParticipant(cart, friend);
         cartUsersRepository.save(participantUser);
 
         log.info("{} added to {}", participantUser, cart);
         return cart;
+    }
+
+    public void checkPermissionsToCartAction(int cartId,
+                                             boolean checkForOwnerRole) {
+        checkPermissionsToCartAction(
+                new CartDto(getCart(cartId)), checkForOwnerRole);
+    }
+
+    public void checkPermissionsToCartAction(Cart cart,
+                                             boolean checkForOwnerRole) {
+        if (cart == null) {
+            return;
+        }
+        checkPermissionsToCartAction(new CartDto(cart), checkForOwnerRole);
+    }
+
+    public void checkPermissionsToCartAction(CartDto cartDTO,
+                                             boolean checkForOwnerRole) {
+        if (cartDTO == null) {
+            return;
+        }
+
+        User currentUser = userService.getCurrentLoggedUser();
+        int currentUserId = currentUser.getId();
+
+        CartUserDTO foundCartUser = cartDTO.getCartUsers().stream()
+                .filter(cartUser -> cartUser.getUser().getId().equals(currentUserId))
+                .findFirst()
+                .orElseThrow(() -> {
+                    log.warn("{} tried to access cartId '{}' while not "
+                            + "being part of the cart",
+                            currentUser, cartDTO.getId());
+                    return new AccessDeniedException("Access denied");
+                });
+
+        if (checkForOwnerRole) {
+            if (foundCartUser.getCartOwnership() != CartOwnership.OWNER) {
+                log.warn("{} tried to do owner-type actions to cartId '{}' "
+                        + "while not being owner", currentUser, cartDTO.getId());
+                throw new AccessDeniedException("Access denied");
+            }
+        }
     }
 }

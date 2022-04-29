@@ -8,7 +8,10 @@ import {Router} from "@angular/router"
 import {ModifyCartDialogComponent} from "../../components/dialogs/cart/modify-cart-dialog.component"
 import {CartAction, CartDialogAction} from "../../model/constants"
 import {ProductService} from "../../services/product.service"
-import {CartStatus} from "../../model/status/cartStatus"
+import {CartStatus} from "../../model/status/cart-status"
+import {CartUtils} from "../../components/utils/cart-utils";
+import {User} from "../../model/user";
+import {LocalCookieService} from "../../services/local-cookie.service";
 
 @Component({
   selector: 'app-cart-list',
@@ -19,24 +22,34 @@ export class CartListComponent implements OnInit {
   INITIAL_BUTTONS: string[] = ["edit", "sort"]
   EDIT_BUTTONS: string[] = ["check"]
 
+  currentUser: User
+
   carts: Cart[]
   buttons: string[] = this.INITIAL_BUTTONS
 
   inEditMode: boolean = false
   amountOfInProgressCarts: number = 0
 
+  areCartsLoading: boolean
+
   constructor(private cartService: CartService,
               private productService: ProductService,
+              private cookieService: LocalCookieService,
               private addCartDialog: MatDialog,
               private modifyCartDialog: MatDialog,
               private router: Router) {}
 
   ngOnInit(): void {
+    this.currentUser = this.cookieService.getCurrentUser()
+
+    this.areCartsLoading = true
     this.cartService.getCarts()
       .subscribe(carts => {
         this.carts = carts
         this.amountOfInProgressCarts = this.countInProgressCarts(carts)
-      })
+      },
+      () => {},
+      () => this.areCartsLoading = false)
   }
 
   handleClick(button: string) {
@@ -69,9 +82,11 @@ export class CartListComponent implements OnInit {
   }
 
   modifyCart(cart: Cart): void {
+    const currentUserIsOwner: boolean = CartUtils.currentUserIsOwnerOfCart(cart, this.currentUser)
+
     const dialogRef: MatDialogRef<ModifyCartDialogComponent> =
       this.modifyCartDialog.open(
-        ModifyCartDialogComponent, { data: { cart: cart }})
+        ModifyCartDialogComponent, { data: { cart: cart, currentUserIsOwner: currentUserIsOwner }})
 
     dialogRef.afterClosed().subscribe((cartAction: CartDialogAction) => {
       if (cartAction) {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core"
+import {Component, OnInit} from "@angular/core"
 
 @Component({
   selector: "bottom-navbar",
@@ -9,7 +9,7 @@ import { Component, OnInit } from "@angular/core"
         <span class="bottom-nav__label">{{ "navbar.carts" | translate }}</span>
       </a>
 
-      <a class="bottom-nav__destination" routerLink="products" routerLinkActive="bottom-nav__destination--active">
+      <a class="bottom-nav__destination" routerLink="#" routerLinkActive="bottom-nav__destination--active">
         <mat-icon>fastfood</mat-icon>
         <span class="bottom-nav__label">{{ "navbar.products" | translate }}</span>
       </a>
@@ -27,7 +27,7 @@ import { Component, OnInit } from "@angular/core"
   `,
   styles: [`
     .bottom-nav mat-icon, .bottom-nav span { color: white; }
-    .bottom-nav { z-index: 99999; }
+    .bottom-nav { z-index: 999; }
   `]
 })
 export class BottomNavbarComponent implements OnInit {

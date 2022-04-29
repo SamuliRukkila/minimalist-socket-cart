@@ -1,0 +1,22 @@
+1. käyttäjä lisää tuotteita koriin
+=> pitää kutsua "hae tuotteet endpointtia"
+
+2. käyttäjä merkitsee tuotteen valmiiksi /
+poistaa / muokkaa tuotetta
+=> pitää kutsua "hae tuotteet endpointtia" ??
+
+3. käyttäjä muuttaa ostoskorin tilaa /
+ muokkaa ostoskoria
+=> kutsutaan "hae ostoskori-endpointtia
+
+4. käyttäjä lisää kaverin koriin
+=> kutsutaan "hae ostoskori-endpointtia"
+(jonka mukana tulee ostoskaverit)
+
+5. käyttäjä poistaa ostoskorin
+-> vain omistaja voi poistaa
+=> käyttäjät viedään ostoskorista pois??
+
+6. käyttäjä menee ostoskoriin
+=> päivitetään ostoskori (käyttäjä pelkästään,
+vai kori myös?)

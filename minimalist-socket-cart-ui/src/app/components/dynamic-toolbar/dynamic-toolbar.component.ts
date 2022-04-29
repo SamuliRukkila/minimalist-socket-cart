@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output} from '@angular/core'
+import {Component, EventEmitter, HostListener, Input, OnChanges, Output} from '@angular/core'
 
 @Component({
   selector: 'app-dynamic-toolbar',
@@ -36,8 +36,8 @@ export class DynamicToolbarComponent implements OnChanges {
   isSticky: boolean = false
 
   ngOnChanges(): void {
-    this.name = this.name?.length > 23 ?
-        this.name?.substring(0, 23) + ".." :
+    this.name = this.name?.length > 30 ?
+        this.name?.substring(0, 30) + ".." :
         this.name
   }
 

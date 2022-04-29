@@ -43,7 +43,9 @@ public class JwtTokenUtil {
     }
 
     public static Integer getUserIdFromSecurity() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = (User) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
         return user.getId();
     }
 

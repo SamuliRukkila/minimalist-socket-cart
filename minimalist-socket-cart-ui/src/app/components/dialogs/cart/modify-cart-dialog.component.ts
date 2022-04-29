@@ -18,7 +18,8 @@ import {MessageService} from "../../../services/message.service"
 
     <mat-dialog-actions>
       <button mat-button mat-dialog-close="">{{ "close" | translate }}</button>
-      <button mat-button class="mat-raised-button delete-product-button" (click)="deleteCart()">
+      <button *ngIf="currentUserIsOwner" mat-button
+              class="mat-raised-button delete-product-button" (click)="deleteCart()">
         {{ "delete" | translate }}
       </button>
       <button mat-button class="mat-raised-button main-button" (click)="saveUpdatedCart()">
@@ -36,6 +37,7 @@ import {MessageService} from "../../../services/message.service"
 export class ModifyCartDialogComponent implements OnInit {
 
   name: string = ""
+  currentUserIsOwner: boolean
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private dialogRef: MatDialogRef<ModifyCartDialogComponent>,
@@ -44,6 +46,7 @@ export class ModifyCartDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.name = this.data.cart.name
+    this.currentUserIsOwner = this.data.currentUserIsOwner
   }
 
   @HostListener('document:keydown.enter')
@@ -65,7 +68,7 @@ export class ModifyCartDialogComponent implements OnInit {
   }
 
   deleteCart(): void {
-    this.cartService.deleteCart(this.data.cart.id)
+    this.cartService.deleteCart(this.data.cart)
       .subscribe(() => {
         this.messageService.showInfo(
           "modifyCart.deleteSuccess",

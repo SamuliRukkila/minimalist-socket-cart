@@ -38,9 +38,11 @@ export class AddFriendToCartDialogComponent implements OnInit {
               private cartService: CartService) {}
 
   ngOnInit(): void {
-    this.friendshipService.getFriends().subscribe((friends: User[]) => {
-      this.friends = friends
-    })
+    this.friendshipService.findFriendsNotInCart(this.data.cartId)
+        .subscribe((friends: User[]) => {
+          console.log(friends)
+          this.friends = friends
+        })
   }
 
   addFriendToCart(friend: User): void {

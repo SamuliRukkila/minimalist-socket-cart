@@ -18,7 +18,7 @@ import {ProfileComponent} from './profile/profile.component'
 import {CartService} from "./services/cart.service"
 import {FineliService} from "./services/fineli.service"
 import {DragDropModule} from "@angular/cdk/drag-drop"
-import {StickyButtonComponent} from './components/sticky-button.component'
+import {StickyButtonComponent} from './components/ui/sticky-button.component'
 import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule} from "@angular/material/dialog"
 import {AddCartDialogComponent} from './components/dialogs/cart/add-cart-dialog.component'
 import {FormsModule, ReactiveFormsModule} from "@angular/forms"
@@ -37,14 +37,14 @@ import {NgxLongPress2Module} from "ngx-long-press2"
 import {ModifyProductDialogComponent} from './components/dialogs/product/modify-product-dialog.component'
 import {ModifyCartDialogComponent} from './components/dialogs/cart/modify-cart-dialog.component'
 import {StatusLocalizePipe} from './components/pipes/status-localizer.pipe'
-import {ProductIsCollectedIconPipe} from './components/pipes/product-is-collected.pipe'
+import {ProductCollectionIconPipe} from './components/pipes/product-is-collected.pipe'
 import {RegisterFormDialogComponent} from './components/dialogs/register-form-dialog.component'
 import {ErrorHandlingInterceptor} from "./components/interceptors/error-handling.interceptor"
-import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from '@angular/material/snack-bar'
+import {MatSnackBarModule} from '@angular/material/snack-bar'
 import {MatListModule} from "@angular/material/list"
 import {FriendshipStatusPipe} from './components/pipes/friendship-status-localizer.pipe'
 import {MatExpansionModule} from "@angular/material/expansion"
-import {TranslateLoader, TranslateModule} from "@ngx-translate/core"
+import {TranslateLoader, TranslateModule, TranslateModuleConfig} from "@ngx-translate/core"
 import {TranslateHttpLoader} from "@ngx-translate/http-loader"
 import {CartMetaInformationComponent} from './cart/cart-meta-information.component'
 import {MatMenuModule} from "@angular/material/menu"
@@ -54,11 +54,26 @@ import {
 } from './components/dialogs/friend/choose-user-list.component'
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner"
 import {MatTabsModule} from "@angular/material/tabs"
-import { FriendListComponent } from './profile/friendship/friend-list.component'
+import { GeneralUserListComponent } from './profile/friendship/general-user-list.component'
 import { AddFriendToCartDialogComponent } from './components/dialogs/friend/add-friend-to-cart-dialog.component'
 import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog.component'
 import { FriendshipPanelComponent } from './profile/friendship/friendship-panel.component'
-import {MatBadgeModule} from "@angular/material/badge"
+import {MatBadgeModule} from "@angular/material/badge";
+import { NameTagsComponent } from './components/ui/name-tags.component'
+import {RandomcolorModule} from "angular-randomcolor"
+import { CartOptions } from './cart/cart/cart-options';
+import {MatBottomSheet} from "@angular/material/bottom-sheet";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatTooltipModule} from "@angular/material/tooltip";
+
+const translateConfig: TranslateModuleConfig = {
+  loader: {
+    provide: TranslateLoader,
+    useFactory: HttpLoaderFactory,
+    deps: [HttpClient]
+  }
+}
 
 @NgModule({
   declarations: [
@@ -77,16 +92,18 @@ import {MatBadgeModule} from "@angular/material/badge"
     ModifyProductDialogComponent,
     ModifyCartDialogComponent,
     StatusLocalizePipe,
-    ProductIsCollectedIconPipe,
+    ProductCollectionIconPipe,
     RegisterFormDialogComponent,
     FriendshipStatusPipe,
     CartMetaInformationComponent,
     SendFriendRequestDialogComponent,
     ChooseUserListComponent,
-    FriendListComponent,
+    GeneralUserListComponent,
     AddFriendToCartDialogComponent,
     ConfirmDialogComponent,
-    FriendshipPanelComponent
+    FriendshipPanelComponent,
+    NameTagsComponent,
+    CartOptions,
   ],
     imports: [
         BrowserModule,
@@ -110,23 +127,22 @@ import {MatBadgeModule} from "@angular/material/badge"
         MatSnackBarModule,
         MatListModule,
         MatExpansionModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-            },
-        }),
+        TranslateModule.forRoot(translateConfig),
         MatMenuModule,
         MatProgressSpinnerModule,
         MatTabsModule,
-        MatBadgeModule
+        MatBadgeModule,
+        RandomcolorModule,
+        MatGridListModule,
+        MatSlideToggleModule,
+        MatTooltipModule,
     ],
   providers: [
     CartService,
     FineliService,
     CookieService,
     AuthService,
+    MatBottomSheet,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorHandlingInterceptor, multi: true},
   ],

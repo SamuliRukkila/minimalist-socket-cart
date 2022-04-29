@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges} from '@angular/core'
 import {Friendship} from "../../model/friendship"
-import {FriendshipStatus} from "../../model/status/friendshipStatus"
+import {FriendshipStatus} from "../../model/status/friendship-status"
 import {FriendshipService} from "../../services/friendship.service"
 import {MatDialog, MatDialogRef} from "@angular/material/dialog"
 import {ConfirmDialogComponent} from "../../components/dialogs/confirm-dialog.component"
@@ -25,12 +25,12 @@ import {User} from "../../model/user"
               {{ 'profile.groups.friends.title' | translate }}
             </span>
           </ng-template>
-          <app-friend-list
+          <app-general-user-list
             [friendships]="friendships"
             (onDenyEvent)="removeFriendship($event)"
             denyIcon="clear"
             emptyText="profile.groups.friends.empty">
-          </app-friend-list>
+          </app-general-user-list>
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
@@ -38,12 +38,12 @@ import {User} from "../../model/user"
               {{ 'profile.groups.requestSent.title' | translate }}
             </span>
           </ng-template>
-          <app-friend-list
+          <app-general-user-list
             [friendships]="requestSentFriendships"
             (onDenyEvent)="removeFriendshipRequest($event)"
             denyIcon="clear"
             emptyText="profile.groups.requestSent.empty">
-            ></app-friend-list>
+            ></app-general-user-list>
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
@@ -51,14 +51,14 @@ import {User} from "../../model/user"
               {{ 'profile.groups.requestReceived.title' | translate }}
             </span>
           </ng-template>
-          <app-friend-list
+          <app-general-user-list
             [friendships]="requestReceivedFriendships"
             (onAcceptEvent)="handleReceivedFriendshipRequest($event, true)"
             (onDenyEvent)="handleReceivedFriendshipRequest($event, false)"
             acceptIcon="check"
             denyIcon="clear"
             emptyText="profile.groups.requestReceived.empty">
-            ></app-friend-list>
+            ></app-general-user-list>
         </mat-tab>
       </mat-tab-group>
 
@@ -69,6 +69,10 @@ import {User} from "../../model/user"
     </mat-expansion-panel>
   `,
   styles: [`
+    .mat-badge-medium.mat-badge-above .mat-badge-content {
+      top: -1px;
+      right: -26px;
+    }
   `]
 })
 export class FriendshipPanelComponent implements OnChanges {

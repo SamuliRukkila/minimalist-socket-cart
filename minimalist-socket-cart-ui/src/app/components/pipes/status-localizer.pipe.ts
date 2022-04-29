@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core'
-import {CartStatus} from "../../model/status/cartStatus"
-import {FriendshipStatus} from "../../model/status/friendshipStatus"
+import {CartStatus} from "../../model/status/cart-status"
+import {FriendshipStatus} from "../../model/status/friendship-status"
 import {TranslateService} from "@ngx-translate/core";
 
 @Pipe({
@@ -11,34 +11,25 @@ export class StatusLocalizePipe implements PipeTransform {
   constructor(private translateService: TranslateService) {}
 
   transform(status: string): string {
-    let localizedText: string
-
-    this.translateService.get(this.getStatusText())
-      .subscribe(localized => localizedText = localized)
-
-    return localizedText
+    return this.translateService.instant(StatusLocalizePipe.getStatusText(status))
   }
 
-  private getStatusText(): string {
+  private static getStatusText(status: string): string {
     switch (status) {
-      case CartStatus.CREATED.valueOf():
-        statusText = "cartStatus.created"
-        break
+      case CartStatus.WAITING.valueOf():
+        return "cartStatus.waiting"
       case CartStatus.DONE.valueOf():
-        statusText = "cartStatus.done"
-        break
+        return "cartStatus.done"
       case CartStatus.IN_PROGRESS.valueOf():
-        statusText = "cartStatus.inProgress"
-        break
+        return "cartStatus.inProgress"
       case FriendshipStatus.REQUEST_SENT.valueOf():
-        statusText = "friendshipStatus.requestSent"
-        break
+        return "friendshipStatus.requestSent"
       case FriendshipStatus.REQUEST_RECEIVED.valueOf():
-        statusText = "friendshipStatus.requestReceived"
-        break
+        return "friendshipStatus.requestReceived"
       case FriendshipStatus.CONFIRMED.valueOf():
-        statusText = "confirmed"
-        break
+        return "friendshipStatus.confirmed"
+      default:
+        return ""
     }
   }
 }

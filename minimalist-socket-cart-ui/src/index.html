@@ -9,7 +9,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <script>window.addEventListener("contextmenu", function(e) { e.preventDefault(); })</script>
+  <script>
+    window.addEventListener("contextmenu", function(e) {
+      e.preventDefault();
+    })
+
+    setDynamicInnerHeight()
+    window.addEventListener("resize", () => setDynamicInnerHeight())
+
+    function setDynamicInnerHeight() {
+      const vh = window.innerHeight
+      document.documentElement.style.setProperty("--vh", `${vh}px`)
+    }
+  </script>
 </head>
 <body class="cart-theme">
   <app-root></app-root>

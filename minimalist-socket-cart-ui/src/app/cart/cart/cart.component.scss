@@ -1,15 +1,26 @@
-.cart-buttons {
-  margin: .8em 0;
-
-  button {
-    margin-right: .3em;
-  }
-}
-
-.container {
-  margin: 0.5em 1em;
+.cart-container {
+  margin: 0.5em 0.5em;
 }
 
 .cart-additional-information-container {
   margin: .7em 0;
+}
+
+.empty-bottom-container {
+  height: 100px;
+}
+
+.active-users-container {
+  margin: .7em 0;
+}
+
+.cart-buttons {
+  position: fixed;
+  bottom: 75px;
+  left: .5em;
+  border-radius: 10px;
+
+  button {
+    margin-right: .3em;
+  }
 }

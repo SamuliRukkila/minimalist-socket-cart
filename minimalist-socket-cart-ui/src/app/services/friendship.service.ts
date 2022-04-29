@@ -3,7 +3,6 @@ import {HttpClient, HttpParams} from "@angular/common/http"
 import {Observable} from "rxjs"
 import {User} from "../model/user"
 import {Friendship} from "../model/friendship"
-import {not} from "rxjs/internal-compatibility";
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +12,12 @@ export class FriendshipService {
 
   constructor(private http: HttpClient) {}
 
-  getFriends(notInCartId?: number): Observable<User[]> {
-    const params: any = {
-      "notInCartId": notInCartId
-    }
-    return this.http.get<User[]>(this.url + "/friends",
-      { params: params }
-    )
+  getFriends(): Observable<User[]> {
+    return this.http.get<User[]>(this.url + "/friends")
+  }
+
+  findFriendsNotInCart(cartId: number): Observable<User[]> {
+    return this.http.get<User[]>(`${this.url}/friends/not-in-cart/${cartId}`)
   }
 
   findAllFriendships(): Observable<Friendship[]> {

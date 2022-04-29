@@ -48,24 +48,41 @@
     "status": "Tila",
     "friends": "Ostoskaverit",
     "amountOfProducts": "Tuotteita",
+    "invitation": "kutsui sinut",
+    "participants": "Osallistujat:",
+    "options": {
+      "title": "Toiminnot",
+      "inviteFriend": {
+        "title": "Kutsu kaveri",
+        "description": "Kutsu kaveri mukaan ostoskorin tekoon"
+      },
+      "modifyCart": {
+        "title": "Muokkaa ostoskoria",
+        "description": "Vaihda nimeä tai poista ostoskori"
+      },
+      "updateStatus": {
+        "title": "Muuta ostoskorin tilaa",
+        "description": "Paina nähdäksesi mahdolliset tilamuutokset",
+        "change": "Muuta tilaksi:"
+      },
+      "toggleClearedProducts": "Piilota valmiit tuotteet"
+    },
     "actions": {
       "changeToActive": "Muuta aktiiviseksi",
       "changeToReady": "Siirrä valmiiksi",
       "inviteFriend": "Kutsu kaveri",
       "statusChanged": "Ostoskorin {{name}} tila muutettu"
-    },
-    "options": {
-      "modify": "Muokkaa"
     }
   },
   "products": {
-    "notFound": "Tuotteita ei löytynyt"
+    "notFound": "Lisää tuotteita painamalla + -näppäintä"
   },
   "product": {
-    "unit": "kpl",
     "title": "Tuote",
+    "unit": "kpl",
     "amount": "Määrä",
-    "isReady": "Valmis"
+    "isReady": "Valmis",
+    "readyAmount": "({{readyProductAmount}}/{{totalProductAmount}})"
   },
   "addCart": {
     "title": "Luo ostoskori",
@@ -80,7 +97,7 @@
     "name": "Nimi",
     "amount": "Määrä",
     "addProducts": "Lisää tuotteet",
-    "deletedSuccess": "Ostoskori '{{name}}' poistettu"
+    "deleteSuccess": "Ostoskori '{{name}}' poistettu"
   },
   "addProducts": {
     "title": "Lisää tuotteita",
@@ -156,9 +173,14 @@
     "promptLogin": "Kirjaudu sisään käyttääksesi palvelua"
   },
   "cartStatus": {
-    "created": "Luotu",
+    "waiting": "Odottaa aloitusta",
     "done": "Valmis",
-    "inProgress": "Toiminnassa"
+    "inProgress": "Toiminnassa",
+    "tooltip": {
+      "WAITING": "Ostoskori odottaa aloittamista",
+      "DONE": "Ostoskori on suoritettu loppuun asti",
+      "IN_PROGRESS": "Ostoskori on käynnissä tällä hetkellä"
+    }
   },
   "friendshipStatus": {
     "requestSent": "Pyydetty",

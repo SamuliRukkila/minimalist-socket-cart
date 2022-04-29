@@ -4,8 +4,9 @@ import java.util.List;
 
 import javax.websocket.server.PathParam;
 
-import com.rukkila.minimalistsocketcart.model.status.CartStatus;
+import com.rukkila.minimalistsocketcart.model.dto.CartDto;
 import com.rukkila.minimalistsocketcart.model.entity.cart.Cart;
+import com.rukkila.minimalistsocketcart.model.status.CartStatus;
 import com.rukkila.minimalistsocketcart.service.CartService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,8 @@ public class CartController {
     private CartService cartService;
 
     @GetMapping
-    public ResponseEntity<List<Cart>> getCarts() {
-        List<Cart> carts = cartService.getCarts();
+    public ResponseEntity<List<CartDto>> getCarts() {
+        List<CartDto> carts = cartService.getCarts();
         return ResponseEntity.ok(carts);
     }
 
@@ -40,8 +41,8 @@ public class CartController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cart> getCart(@PathVariable("id") Integer id) {
-        Cart foundCart = cartService.getCart(id);
+    public ResponseEntity<CartDto> getCart(@PathVariable("id") Integer id) {
+        CartDto foundCart = cartService.getCartDTO(id);
         return ResponseEntity.ok(foundCart);
     }
 

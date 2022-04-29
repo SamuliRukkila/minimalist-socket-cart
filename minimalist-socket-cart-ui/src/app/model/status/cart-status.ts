@@ -1,5 +1,5 @@
 export enum CartStatus {
-  CREATED = "CREATED",
+  WAITING = "WAITING",
   IN_PROGRESS = "IN_PROGRESS",
   DONE = "DONE"
 }

@@ -1,4 +1,4 @@
-import {FriendshipStatus} from "./status/friendshipStatus"
+import {FriendshipStatus} from "./status/friendship-status"
 import {User} from "./user"
 
 export interface Friendship {

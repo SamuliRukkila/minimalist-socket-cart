@@ -1,11 +1,14 @@
 package com.rukkila.minimalistsocketcart.service;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.rukkila.minimalistsocketcart.model.entity.User;
 import com.rukkila.minimalistsocketcart.model.entity.friendship.Friendship;
 import com.rukkila.minimalistsocketcart.model.status.FriendshipStatus;
+import com.rukkila.minimalistsocketcart.repository.CartUsersRepository;
 import com.rukkila.minimalistsocketcart.repository.FriendshipRepository;
 
 import org.slf4j.Logger;
@@ -15,27 +18,63 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class FriendshipService {
-    private static final Logger log =
-            LoggerFactory.getLogger(ProductService.class);
+
+    private static final Logger log = LoggerFactory.getLogger(FriendshipService.class);
 
     @Autowired
     private FriendshipRepository friendshipRepository;
     @Autowired
+    private CartUsersRepository cartUsersRepository;
+    @Autowired
+    private CartService cartService;
+    @Autowired
     private UserService userService;
 
-    public List<User> getFriends(Integer notInCartId) {
+    public List<User> getFriends() {
         User user = userService.getCurrentLoggedUser();
-        List<User> friends = friendshipRepository.getFriends(user, notInCartId);
+        List<User> friends = friendshipRepository.getFriends(user);
 
         if (log.isDebugEnabled()) {
             if (friends.isEmpty()) {
-                log.debug("Did not find any friends for {}", user);
+                log.debug("Did not find any friends for: {}", user);
             }
             else {
-                log.debug("Found {} friends of {}", friends.size(), user);
+                log.debug("Found {} friends for: {}", friends.size(), user);
             }
         }
         return friends;
+    }
+
+    public List<User> findFriendsNotInCart(Integer cartId) {
+        User user = userService.getCurrentLoggedUser();
+
+        cartService.checkPermissionsToCartAction(cartId, false);
+
+        List<User> friends = friendshipRepository.getFriends(user);
+        if (friends.isEmpty()) {
+            log.debug("Did not find any friends for {}", user);
+            return Collections.emptyList();
+        }
+
+        List<User> usersInCart =
+                cartUsersRepository.findUsersByCartId(user, cartId);
+
+        List<User> friendsNotInCart = friends.stream()
+                .filter(friend -> !usersInCart.contains(friend))
+                .collect(Collectors.toList());
+
+        if (log.isDebugEnabled()) {
+            if (friendsNotInCart.isEmpty()) {
+                log.debug("No {}'s friends ({}) in cart '{}', returning all",
+                        user, friends.size(), cartId);
+            }
+            else {
+                log.debug("Found '{}' out of '{}' friends who weren't in cart"
+                                + " '{}' yet. Caller: {}",
+                        friendsNotInCart.size(), friends.size(), cartId, user);
+            }
+        }
+        return friendsNotInCart;
     }
 
     public List<Friendship> getFriendships() {
@@ -75,7 +114,7 @@ public class FriendshipService {
         friendshipRepository.saveAll(Arrays.asList(
                 requestSentNewFriendship, requestReceivedNewFriendship));
 
-        log.info("Friendship request sent from user {} to {}",
+        log.info("Friendship request sent from {} to {}",
                 user, friend);
     }
 

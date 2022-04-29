@@ -37,6 +37,9 @@ public class Product {
     @Column(name = "created_at", nullable = false)
     private Date createdAt = new Date();
 
+    @Column(nullable = false)
+    private int index;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(
@@ -78,11 +81,42 @@ public class Product {
         this.amount = amount;
     }
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int order) {
+        this.index = order;
+    }
+
     public Cart getCart() {
         return cart;
     }
 
     public void setCart(Cart cart) {
         this.cart = cart;
+    }
+
+    public void setCart(int cartId) {
+        setCart(Cart.of(cartId));
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", amount=" + amount +
+                ", index=" + index +
+                ", cart=" + (cart != null ? cart.getId() : null) +
+                '}';
     }
 }

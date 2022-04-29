@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core'
 import {HttpClient} from "@angular/common/http"
 import {Observable} from "rxjs"
-import {JwtRequest} from "../model/jwt/JwtRequest"
+import {JwtRequest} from "../model/jwt/jwt-request"
 import {CookieKeys} from "../model/constants"
 import {shareReplay, tap} from "rxjs/operators"
-import {JwtResponse} from "../model/jwt/JwtResponse"
+import {JwtResponse} from "../model/jwt/jwt-response"
 import {CookieService} from "ngx-cookie-service"
 import {Router} from "@angular/router"
 import {LocalCookieService} from "./local-cookie.service"

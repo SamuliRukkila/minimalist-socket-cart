@@ -23,7 +23,7 @@ import {UserService} from "../../../services/user.service"
                   {{ userTableRowTitle | translate }}
                 </ng-template>
               </mat-header-cell>
-              <mat-cell *matCellDef="let user" [ngClass]="{'isSelected': user.id === selectedUser?.id }">
+              <mat-cell *matCellDef="let user" [ngClass]="{ 'isSelected': user.id === selectedUser?.id }">
                 {{ user.username }}
               </mat-cell>
             </ng-container>
@@ -75,54 +75,54 @@ import {UserService} from "../../../services/user.service"
     </div>
   `,
   styles: [`
-    .container {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
+      .cart-container {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+      }
 
-    .upper-part-container {
-      flex-grow: 100;
-    }
+      .upper-part-container {
+          flex-grow: 100;
+      }
 
-    .bottom-part-container {
-      padding: .8em;
-    }
+      .bottom-part-container {
+          padding: .8em;
+      }
 
-    .bottom-part-container mat-form-field {
-      width: 100%;
-    }
+      .bottom-part-container mat-form-field {
+          width: 100%;
+      }
 
-    .spacer {
-      flex-grow: 1;
-    }
+      .spacer {
+          flex-grow: 1;
+      }
 
-    .mat-header-row {
-      min-height: 2.5em;
-    }
+      .mat-header-row {
+          min-height: 2.5em;
+      }
 
-    .mat-row {
-      min-height: 2.5em;
-    }
+      .mat-row {
+          min-height: 2.5em;
+      }
 
-    .no-data-cell {
-      padding: .8em;
-    }
+      .no-data-cell {
+          padding: .8em;
+      }
 
-    .username-table-container {
-      max-height: 46vh;
-      overflow: auto;
-    }
+      .username-table-container {
+          max-height: 46vh;
+          overflow: auto;
+      }
 
-    .mat-header-cell {
-      background-color: #30343f;
-      color: #e5f4e3;
-    }
+      .mat-header-cell {
+          background-color: #30343f;
+          color: #e5f4e3;
+      }
 
-    .isSelected {
-      background-color: #c29695;
-      color: #e5f4e3;
-    }
+      .isSelected {
+          background-color: #c29695;
+          color: #e5f4e3;
+      }
   `]
 })
 export class ChooseUserListComponent implements OnChanges {

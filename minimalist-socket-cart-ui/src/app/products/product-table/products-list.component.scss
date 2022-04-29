@@ -3,14 +3,41 @@
 table {
   width: 100%;
   margin-top: .7em;
+  overflow-x: hidden;
+}
+
+.product-list-loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: calc(var(--vh) - 32em);
+  width: 88%;
+}
+
+.product-list-table {
+  max-height: calc(var(--vh) - 15em);
+  overflow: scroll;
+}
+
+.mat-column-reOrder {
+  flex: 0 0 5%;
 }
 
 .mat-column-name {
-  flex: 0 0 57%;
+  flex: 0 0 46%;
 }
 
 .mat-column-amount {
-  flex: 0 0 19%;
+  flex: 0 0 18%;
+}
+
+.mat-column-isCollected {
+  flex: 0 0 11%;
+}
+
+.mat-column-dragHandle {
+  flex: 0 0 5%;
 }
 
 .mat-header-amount {
@@ -41,6 +68,6 @@ table {
   padding-top: 1.2em;
 }
 
-.mat-header-row {
-  .mat-header-cell {}
+.header-row {
+  height: 20px !important;
 }

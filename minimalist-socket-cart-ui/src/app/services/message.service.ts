@@ -25,7 +25,7 @@ export class MessageService {
     this.errorConfig.politeness = "polite"
   }
 
-  showInfo(message: string, duration: number, params?: Object): void {
+  showInfo(message: string, duration?: number, params?: Object): void {
     this.infoConfig.duration = duration
     this.showMsg(message, this.infoConfig, params)
   }

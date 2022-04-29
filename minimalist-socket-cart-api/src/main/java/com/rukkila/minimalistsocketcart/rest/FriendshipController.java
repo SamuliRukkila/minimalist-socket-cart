@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -25,11 +24,17 @@ public class FriendshipController {
     private FriendshipService friendshipService;
 
     @GetMapping("/friends")
-    public ResponseEntity<List<User>> getFriends(
-            @RequestParam(name = "notInCartUd", required = false)
-                    Integer notInCartId) {
-        List<User> friends = friendshipService.getFriends(notInCartId);
+    public ResponseEntity<List<User>> getFriends() {
+        List<User> friends = friendshipService.getFriends();
         return ResponseEntity.ok(friends);
+    }
+
+    @GetMapping("/friends/not-in-cart/{cartId}")
+    public ResponseEntity<List<User>> findFriendsNotInCart(
+            @PathVariable("cartId") Integer cartId) {
+        List<User> friendsNotInCart =
+                friendshipService.findFriendsNotInCart(cartId);
+        return ResponseEntity.ok(friendsNotInCart);
     }
 
     @GetMapping
